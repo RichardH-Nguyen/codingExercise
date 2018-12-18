@@ -2,10 +2,15 @@ import csv
 import urllib.request
 import io
 
+# url, respone, and data reader could be named better. Since one var name is very
+# general purpose while the others specifically say customer it's confusing to switch
+
+
 url = "https://s3.us-east-2.amazonaws.com/cc-eng/2018-coding-excercise/cablecast-cdn-costs.csv"
 customersUrl = "https://s3.us-east-2.amazonaws.com/cc-eng/2018-coding-excercise/cablecast-customers.csv"
 response = urllib.request.urlopen(url)
 responseCustomer = urllib.request.urlopen(customersUrl)
+# is cr ever used?
 cr = csv.reader(response)
 datareader = csv.reader(io.TextIOWrapper(response))
 dataCustomer = csv.reader(io.TextIOWrapper(responseCustomer))
@@ -19,6 +24,10 @@ for row in datareader:
 for row in dataCustomer:
     customerRows.append(row)
 
+
+
+# finding the index of the totals in order to keep track of where what type of data
+# is is nice.
 
 # index 106 total cost
 #total length 213
@@ -62,7 +71,7 @@ def MostData(array):
     customerID = str(array[0][0]).split("(")
     customerName = getCustomerName(customerID[0])
     print("The customer using the most data: " + str(customerName))
-    
+
 
 def LeastData(array):
     customerID = str(array[0][len(array[0]) - 2]).split("(")
@@ -103,9 +112,11 @@ def ConvertToMoneyID(id):
         moneyString = "".join(stringList)
         return moneyString
 
+# by hard coding 63 isn't this going to break or totally exclude new customers?
 money = GetSeperate(63, 0, totalIndex)
 data = GetSeperate(63, totalIndex + 1, gbIndex)
 
+# what is this code below doing?
 
 num = 0
 for i in range(62):
@@ -184,4 +195,3 @@ for i in range(len(data[0]) - 1):
         check = customerRows[x][0]
         if ID == check:
             print(customerRows[x][0])
-
